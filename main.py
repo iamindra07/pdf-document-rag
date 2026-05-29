@@ -35,22 +35,22 @@ async def upload_file(file: UploadFile = File(...)):
         if extracted_text:
             text += extracted_text
         
-        chunks = text.split(".")
-        chunks = [chunk.strip() for chunk in chunks if chunk.strip()]
+    chunks = text.split(".")
+    chunks = [chunk.strip() for chunk in chunks if chunk.strip()]
         
-        embeddings = model.encode(chunks).tolist()
+    embeddings = model.encode(chunks).tolist()
         
-        for i, chunk in enumerate(chunks):
-            collection.add(
-                ids=[str(i)],
-                documents=[chunk],
-                embeddings=[embeddings[i]]
-            )
+    for i, chunk in enumerate(chunks):
+        collection.add(
+            ids=[str(i)],
+            documents=[chunk],
+            embeddings=[embeddings[i]]
+        )
         
-        return{
-            "message":"pdf uploaded successfully",
-            "total chunks":len(chunks)
-        }
+    return{
+        "message":"pdf uploaded successfully",
+        "total chunks":len(chunks)
+    }
 
 @app.post("/chat")
 def chat(request:Req):
